@@ -1,49 +1,29 @@
-/*globals describe, before, it*/
-/*jshint expr:true*/
-var should         = require('should'),
-    hbs            = require('express-hbs'),
-    utils          = require('./utils'),
+var should = require('should'), // jshint ignore:line
 
 // Stuff we are testing
-    handlebars     = hbs.handlebars,
-    helpers        = require('../../../server/helpers');
+    helpers = require('../../../server/helpers');
 
 describe('{{post_class}} helper', function () {
-    before(function () {
-        utils.loadHelpers();
+    it('can render class string', function () {
+        var rendered = helpers.post_class.call({});
+
+        should.exist(rendered);
+        rendered.string.should.equal('post');
     });
 
-    it('has loaded postclass helper', function () {
-        should.exist(handlebars.helpers.post_class);
+    it('can render featured class', function () {
+        var post = {featured: true},
+            rendered = helpers.post_class.call(post);
+
+        should.exist(rendered);
+        rendered.string.should.equal('post featured');
     });
 
-    it('can render class string', function (done) {
-        helpers.post_class.call({}).then(function (rendered) {
-            should.exist(rendered);
-            rendered.string.should.equal('post');
-            done();
-        }).catch(done);
-    });
+    it('can render page class', function () {
+        var post = {page: true},
+            rendered = helpers.post_class.call(post);
 
-    it('can render featured class', function (done) {
-        var post = {featured: true};
-
-        helpers.post_class.call(post).then(function (rendered) {
-            should.exist(rendered);
-            rendered.string.should.equal('post featured');
-
-            done();
-        }).catch(done);
-    });
-
-    it('can render page class', function (done) {
-        var post = {page: true};
-
-        helpers.post_class.call(post).then(function (rendered) {
-            should.exist(rendered);
-            rendered.string.should.equal('post page');
-
-            done();
-        }).catch(done);
+        should.exist(rendered);
+        rendered.string.should.equal('post page');
     });
 });

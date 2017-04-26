@@ -2,12 +2,13 @@ var _            = require('lodash'),
     Promise      = require('bluebird'),
     fs           = require('fs-extra'),
     errors       = require('../../../errors'),
+    i18n         = require('../../../i18n'),
     JSONHandler;
 
 JSONHandler = {
     type: 'data',
     extensions: ['.json'],
-    types: ['application/octet-stream', 'application/json'],
+    contentTypes: ['application/octet-stream', 'application/json'],
     directories: [],
 
     loadFile: function (files, startDir) {
@@ -23,16 +24,19 @@ JSONHandler = {
                 // if importData follows JSON-API format `{ db: [exportedData] }`
                 if (_.keys(importData).length === 1) {
                     if (!importData.db || !Array.isArray(importData.db)) {
-                        throw new Error('Invalid JSON format, expected `{ db: [exportedData] }`');
+                        throw new errors.GhostError({message: i18n.t('errors.data.importer.handlers.json.invalidJsonFormat')});
                     }
 
                     importData = importData.db[0];
                 }
 
                 return importData;
-            } catch (e) {
-                errors.logError(e, 'API DB import content', 'check that the import file is valid JSON.');
-                return Promise.reject(new errors.BadRequestError('Failed to parse the import JSON file.'));
+            } catch (err) {
+                return Promise.reject(new errors.BadRequestError({
+                    err: err,
+                    context: i18n.t('errors.data.importer.handlers.json.apiDbImportContent'),
+                    help: i18n.t('errors.data.importer.handlers.json.checkImportJsonIsValid')
+                }));
             }
         });
     }

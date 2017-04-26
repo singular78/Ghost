@@ -1,103 +1,54 @@
-/*globals describe, before, beforeEach, afterEach, it*/
-/*jshint expr:true*/
-var should         = require('should'),
-    sinon          = require('sinon'),
-    Promise        = require('bluebird'),
-    rewire         = require('rewire'),
-    hbs            = require('express-hbs'),
-    utils          = require('./utils'),
+var should = require('should'), // jshint ignore:line
+    sinon = require('sinon'),
 
 // Stuff we are testing
-    handlebars     = hbs.handlebars,
-    helpers        = rewire('../../../server/helpers'),
-    api            = require('../../../server/api');
+    helpers = require('../../../server/helpers'),
+    proxy = require('../../../server/helpers/proxy'),
+    settingsCache = proxy.settingsCache,
+
+    sandbox = sinon.sandbox.create();
 
 describe('{{ghost_foot}} helper', function () {
-    var sandbox;
-
-    before(function () {
-        utils.loadHelpers();
-    });
+    var settingsCacheStub;
 
     afterEach(function () {
         sandbox.restore();
-        utils.restoreConfig();
-        helpers.__set__('utils.isProduction', false);
     });
 
-    describe('without Code Injection', function () {
-        beforeEach(function () {
-            sandbox = sinon.sandbox.create();
-            sandbox.stub(api.settings, 'read', function () {
-                return Promise.resolve({
-                    settings: [{value: ''}]
-                });
-            });
-        });
-
-        it('has loaded ghost_foot helper', function () {
-            should.exist(handlebars.helpers.ghost_foot);
-        });
-
-        it('outputs correct jquery for development mode', function (done) {
-            utils.overrideConfig({assetHash: 'abc'});
-
-            helpers.ghost_foot.call().then(function (rendered) {
-                should.exist(rendered);
-                rendered.string.should.match(/<script src=".*\/public\/jquery.js\?v=abc"><\/script>/);
-
-                done();
-            }).catch(done);
-        });
-
-        it('outputs correct jquery for production mode', function (done) {
-            utils.overrideConfig({assetHash: 'abc'});
-            helpers.__set__('utils.isProduction', true);
-
-            helpers.ghost_foot.call().then(function (rendered) {
-                should.exist(rendered);
-                rendered.string.should.match(/<script src=".*\/public\/jquery.min.js\?v=abc"><\/script>/);
-
-                done();
-            }).catch(done);
-        });
+    beforeEach(function () {
+        settingsCacheStub = sandbox.stub(settingsCache, 'get');
     });
 
-    describe('with Code Injection', function () {
-        beforeEach(function () {
-            sandbox = sinon.sandbox.create();
-            sandbox.stub(api.settings, 'read', function () {
-                return Promise.resolve({
-                    settings: [{value: '<script></script>'}]
-                });
-            });
-        });
+    it('outputs correct injected code', function (done) {
+        settingsCacheStub.withArgs('ghost_foot').returns('<script type="text/javascript">var test = \'I am a variable!\'</script>');
 
-        afterEach(function () {
-            sandbox.restore();
-        });
+        helpers.ghost_foot.call().then(function (rendered) {
+            should.exist(rendered);
+            rendered.string.should.match(/<script type="text\/javascript">var test = 'I am a variable!'<\/script>/);
 
-        it('outputs correct jquery for development mode', function (done) {
-            utils.overrideConfig({assetHash: 'abc'});
+            done();
+        }).catch(done);
+    });
 
-            helpers.ghost_foot.call().then(function (rendered) {
-                should.exist(rendered);
-                rendered.string.should.match(/<script src=".*\/public\/jquery.js\?v=abc"><\/script> <script><\/script>/);
+    it('outputs handles code injection being empty', function (done) {
+        settingsCacheStub.withArgs('ghost_foot').returns('');
 
-                done();
-            }).catch(done);
-        });
+        helpers.ghost_foot.call().then(function (rendered) {
+            should.exist(rendered);
+            rendered.string.should.eql('');
 
-        it('outputs correct jquery for production mode', function (done) {
-            utils.overrideConfig({assetHash: 'abc'});
-            helpers.__set__('utils.isProduction', true);
+            done();
+        }).catch(done);
+    });
 
-            helpers.ghost_foot.call().then(function (rendered) {
-                should.exist(rendered);
-                rendered.string.should.match(/<script src=".*\/public\/jquery.min.js\?v=abc"><\/script> <script><\/script>/);
+    it('outputs handles code injection being undefined', function (done) {
+        settingsCacheStub.withArgs('ghost_foot').returns(undefined);
 
-                done();
-            }).catch(done);
-        });
+        helpers.ghost_foot.call().then(function (rendered) {
+            should.exist(rendered);
+            rendered.string.should.eql('');
+
+            done();
+        }).catch(done);
     });
 });

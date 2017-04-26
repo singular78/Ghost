@@ -1,106 +1,79 @@
-# [Ghost](https://github.com/TryGhost/Ghost) [![Build Status](https://travis-ci.org/TryGhost/Ghost.svg?branch=master)](https://travis-ci.org/TryGhost/Ghost)
+<a href="https://github.com/TryGhost/Ghost"><img src="https://cloud.githubusercontent.com/assets/120485/18661790/cf942eda-7f17-11e6-9eb6-9c65bfc2abd8.png" alt="Ghost" /></a>
+<a href="https://travis-ci.org/TryGhost/Ghost"><img align="right" src="https://travis-ci.org/TryGhost/Ghost.svg?branch=master" alt="Build status" /></a>
 
-![Ghost Screenshot](https://cloud.githubusercontent.com/assets/120485/4828504/9e832764-5f80-11e4-8ac1-0332bcc67a35.png)
+<a href="https://dev.ghost.org/lts"><img src="https://cloud.githubusercontent.com/assets/120485/18661856/0930282e-7f18-11e6-948a-00546393fd93.png" alt="Warning: Major release in progress. Expect things to be broken in master." /></a>
 
-Ghost is a free, open, simple blogging platform that's available to anyone who wants to use it. Lovingly created and maintained by [John O'Nolan](http://twitter.com/JohnONolan) + [Hannah Wolfe](http://twitter.com/ErisDS) + an amazing group of [contributors](https://github.com/TryGhost/Ghost/contributors).
+The project is maintained by a non-profit organisation called the **Ghost Foundation**, along with an amazing group of independent [contributors](https://github.com/TryGhost/Ghost/contributors). We're trying to make publishing software that changes the shape of online journalism.
 
-Visit the project's website at <http://ghost.org> &bull; docs on <http://support.ghost.org>.
+- [Ghost.org](https://ghost.org)
+- [Latest Release](https://ghost.org/developers/)
+- [Support](http://support.ghost.org/)
+- [Theme Docs](http://themes.ghost.org)
+- [Contributing Guide](https://github.com/TryGhost/Ghost/blob/master/.github/CONTRIBUTING.md)
+- [Feature Requests](http://ideas.ghost.org/)
+- [Developer Blog](http://dev.ghost.org)
 
+**NOTE: If you’re stuck, can’t get something working or need some help, please head on over and join our [Slack community](https://ghost.org/slack/) rather than opening an issue.**
 
-## Getting Involved
+&nbsp;
 
-Want to report a bug, request a feature, contribute, or translate Ghost? Check out our in-depth guide to [Contributing to Ghost](https://github.com/TryGhost/Ghost/blob/master/CONTRIBUTING.md). We need all the help we can get! You can also join in with our [community](https://github.com/TryGhost/Ghost#community) to keep up-to-date and meet other Ghosters.
+# Ghost 1.0-alpha Developer Install
 
+**Please note:** These are the install instructions for Ghost 1.0-alpha, which is **not** stable. If you're looking for the latest release of Ghost, check out the [stable branch](https://github.com/TryGhost/Ghost/tree/stable) or the [latest release](https://github.com/TryGhost/Ghost/releases). If you get stuck, come say hi over [on slack](https://slack.ghost.org)!
 
-## Getting Started
+**Important**: Ghost uses [`yarn`](https://yarnpkg.com) rather than `npm` to manage it's dependencies. Ensure that you have it installed and you have configured your `PATH` environment variable for it to work correctly. We recommend the ["Installation Script" instructions](https://yarnpkg.com/en/docs/install#alternatives-tab) because it works better with `nvm` but choose the best option for your development setup.
 
-There are a few different ways to install Ghost, take care to use the method which best suits your needs.
+Install and run Ghost.
+<pre>
+<b>git clone git@github.com:TryGhost/Ghost.git ghost</b>
+    Download the Ghost code base
+<b>npm run init</b>
+    Short command for: yarn global add knex-migrator ember-cli grunt-cli && yarn install && grunt symlink && grunt init
+<b>knex-migrator init</b>
+    Creates and initialises your database
+<b>grunt dev</b>
+    Starts the express server and ember build
+</pre>
 
-**Please note** - the downloadable zip files we provide on [Ghost.org](http://ghost.org/download), the [GitHub releases page](https://github.com/TryGhost/Ghost/releases), and via npm are pre-built packages designed for getting setup quickly. Cloning from the git repository requires you to install several dependencies and build the assets yourself. 
+Run server tests
 
+```bash
+grunt test-all
+```
 
-### Install from zip (fastest & best for bloggers)
-
-If you just want to get a Ghost blog running in the fastest time possible, this method is for you.
-
-For detailed instructions on various platforms, visit the [Ghost Installation Guide](http://support.ghost.org/installation/). If you get stuck, help is available on [our support site](http://support.ghost.org/).
-
-1. Install [Node.js](http://nodejs.org) - Ghost requires **Node v0.10.x**
-1. Download the latest Ghost package from [Ghost.org](http://ghost.org/download). 
-1. Create a new directory where you would like to run the code, and un-zip the package to that location.
-1. Fire up a Terminal, the Node Command Prompt or shell and change directory to the root of the Ghost application (where config.example.js and index.js are)
-1. run `npm install --production` to install the node dependencies. If you see `error Error: ENOENT` on this step, make sure you are in the project directory and try again.
-1. To start ghost, run `npm start`
-1. Visit `http://localhost:2368/` in your web browser or go to `http://localhost:2368/ghost` to log in
-
-Check out the [Documentation](http://support.ghost.org/) for more detailed instructions, or get in touch via the [forum](http://ghost.org/forum) if you get stuck.
-
-
-### Install from git
-
-If you're a developer or someone comfortable getting up and running from a `git clone`, this method is for you.
-
-If you clone the GitHub repository, you will need to build a number of assets using grunt.
-
-Please do **NOT** use the master branch of Ghost in production. If you are using git to deploy to production, please use the latest [release](https://github.com/TryGhost/Ghost/releases) or the [stable](https://github.com/TryGhost/Ghost/tree/stable) branch which contains the latest release.
-
-Full instructions & troubleshooting tips can be found in the [Contributing Guide](https://github.com/TryGhost/Ghost/blob/master/CONTRIBUTING.md#working-on-ghost-core).
-
-#### Quickstart:
-
-1. `npm install -g grunt-cli`
-1. `npm install`
-1. `grunt init` (and `grunt prod` if you want to run Ghost in production mode)
-1. `npm start`
-
-Check out the [Documentation](http://support.ghost.org/) for more detailed instructions, or get in touch via the [forum](http://ghost.org/forum) if you get stuck.
+Run client tests
+```bash
+cd core/client
+ember test
+```
 
 
-### Install from npm
+Read more about the [development workflows](https://github.com/TryGhost/Ghost/wiki/Working-with-Ghost).
 
-If you want to build Ghost into a larger node app, or are familiar with using `npm` packages, then this method might be for you.
+# Deploying Ghost
 
-`npm install ghost`
+<a href="https://ghost.org/pricing"><img src="https://cloud.githubusercontent.com/assets/120485/18662071/f30da886-7f18-11e6-90f2-42c0ade79fd1.png" alt="Ghost(Pro)" /></a>
 
-Further setup instructions can be found in the [using Ghost as an npm module](https://github.com/TryGhost/Ghost/wiki/Using-Ghost-as-an-npm-module) wiki entry.
+The easiest way to deploy Ghost is with our official **[Ghost(Pro)](https://ghost.org/pricing/)** managed service. You can have a fresh instance up and running in a couple of clicks with a worldwide CDN, backups, security and maintenance all done for you.
 
+Not only will it save you [many hours per month](https://ghost.org/ghost-pro-vs-self-hosting/), but all revenue goes to the Ghost Foundation, which funds the maintenance and further development of Ghost itself. So you’ll be supporting open source software *and* getting a great service **at the same time**! Talk about win/win. :trophy:
 
-### Upgrading to The Latest Version
+[Other options](http://support.ghost.org/deploying-ghost/) are also available if you prefer playing around with servers by yourself, of course. The freedom of choice is in your hands.
 
-Upgrade instructions can be found on the [Ghost Support Site](http://support.ghost.org/how-to-upgrade/)
-
-
-### Logging in For The First Time
-
-Once you have the Ghost server up and running, you should be able to navigate to `http://localhost:2368/ghost/` from a web browser, where you will be prompted to setup your blog and user account. Once you have entered your desired credentials you will be automatically logged in to the admin area. The setup screen will not be accessible once the process has been completed.
+&nbsp;
 
 
-## Community
+# Staying Up to Date
 
-Keep track of Ghost development and Ghost community activity.
+When a new version of Ghost comes out, you'll want to look over these [upgrade instructions](http://support.ghost.org/how-to-upgrade/) for what to do next.
 
-* Follow Ghost on [Twitter](http://twitter.com/TryGhost), [Facebook](https://www.facebook.com/ghost) and [Google+](https://plus.google.com/114465948129362706086).
-* Read and subscribe to the [Official Ghost Blog](http://blog.ghost.org) and the [Ghost Development Blog](http://dev.ghost.org).
-* Join in discussions on the [Ghost Forum](http://ghost.org/forum/)
-* Chat with Ghost developers on IRC. We're on `irc.freenode.net`, in the `#Ghost` channel. We have a public meeting every Tuesday at 5:30pm London time.
+You can talk to other Ghost users and developers in our [public Slack team](https://ghost.org/slack/) (it's pretty awesome). We have a public meeting every Tuesday at 5:30pm UK time.
 
+New releases are announced on the [dev blog](http://dev.ghost.org/tag/releases/). You can subscribe by email or follow [@TryGhost_Dev](https://twitter.com/tryghost_dev) on Twitter, if you prefer your updates bite-sized and facetious. :saxophone::turtle:
 
-## Versioning
-
-For transparency and insight into our release cycle, along with striving to maintain backward compatibility, Ghost will be maintained according to the [Semantic Versioning](http://semver.org/) guidelines as much as possible.
-
-Releases will be numbered with the following format:
-
-`<major>.<minor>.<patch>-<build>`
-
-Constructed with the following guidelines:
-
-* A new *major* release indicates a large change where backwards compatibility is broken.
-* A new *minor* release indicates a normal change that maintains backwards compatibility.
-* A new *patch* release indicates a bugfix or small change which does not affect compatibility.
-* A new *build* release indicates this is a pre-release of the version.
+&nbsp;
 
 
-## Copyright & License
+# Copyright & License
 
-Copyright (c) 2013-2015 Ghost Foundation - Released under the [MIT license](LICENSE).
+Copyright (c) 2013-2017 Ghost Foundation - Released under the [MIT license](LICENSE).

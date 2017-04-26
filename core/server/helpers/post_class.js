@@ -6,20 +6,20 @@
 // We use the name body_class to match the helper for consistency:
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 
-var hbs             = require('express-hbs'),
-    _               = require('lodash'),
-    filters         = require('../filters'),
-    post_class;
+var proxy = require('./proxy'),
+    _ = require('lodash'),
+    SafeString = proxy.SafeString;
 
-post_class = function (options) {
-    /*jshint unused:false*/
+module.exports = function post_class() {
     var classes = ['post'],
         tags = this.post && this.post.tags ? this.post.tags : this.tags || [],
         featured = this.post && this.post.featured ? this.post.featured : this.featured || false,
         page = this.post && this.post.page ? this.post.page : this.page || false;
 
     if (tags) {
-        classes = classes.concat(tags.map(function (tag) { return 'tag-' + tag.slug; }));
+        classes = classes.concat(tags.map(function (tag) {
+            return 'tag-' + tag.slug;
+        }));
     }
 
     if (featured) {
@@ -30,10 +30,8 @@ post_class = function (options) {
         classes.push('page');
     }
 
-    return filters.doFilter('post_class', classes).then(function (classes) {
-        var classString = _.reduce(classes, function (memo, item) { return memo + ' ' + item; }, '');
-        return new hbs.handlebars.SafeString(classString.trim());
-    });
+    classes = _.reduce(classes, function (memo, item) {
+        return memo + ' ' + item;
+    }, '');
+    return new SafeString(classes.trim());
 };
-
-module.exports = post_class;

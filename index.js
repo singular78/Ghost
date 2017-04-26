@@ -1,29 +1,46 @@
-// # Ghost bootloader
-// Orchestrates the loading of Ghost
-// When run from command line.
+// # Ghost Startup
+// Orchestrates the startup of Ghost when run from command line.
+console.time('Ghost boot');
 
-var express,
-    ghost,
-    parentApp,
-    errors;
+var debug = require('debug')('ghost:boot:index'),
+    ghost, express, logging, errors, utils, parentApp;
 
-// Make sure dependencies are installed and file system permissions are correct.
-require('./core/server/utils/startup-check').check();
+debug('First requires...');
 
-// Proceed with startup
-express = require('express');
 ghost = require('./core');
-errors = require('./core/server/errors');
 
-// Create our parent express app instance.
+debug('Required ghost');
+
+express = require('express');
+logging = require('./core/server/logging');
+errors = require('./core/server/errors');
+utils = require('./core/server/utils');
 parentApp = express();
 
+debug('Initialising Ghost');
 ghost().then(function (ghostServer) {
-    // Mount our ghost instance on our desired subdirectory path if it exists.
-    parentApp.use(ghostServer.config.paths.subdir, ghostServer.rootApp);
+    // Mount our Ghost instance on our desired subdirectory path if it exists.
+    parentApp.use(utils.url.getSubdir(), ghostServer.rootApp);
 
-    // Let ghost handle starting our server instance.
-    ghostServer.start(parentApp);
+    debug('Starting Ghost');
+    // Let Ghost handle starting our server instance.
+    return ghostServer.start(parentApp).then(function afterStart() {
+        console.timeEnd('Ghost boot');
+        // if IPC messaging is enabled, ensure ghost sends message to parent
+        // process on successful start
+        if (process.send) {
+            process.send({started: true});
+        }
+    });
 }).catch(function (err) {
-    errors.logErrorAndExit(err, err.context, err.help);
+    if (!errors.utils.isIgnitionError(err)) {
+        err = new errors.GhostError({err: err});
+    }
+
+    if (process.send) {
+        process.send({started: false, error: err.message});
+    }
+
+    logging.error(err);
+    process.exit(-1);
 });
