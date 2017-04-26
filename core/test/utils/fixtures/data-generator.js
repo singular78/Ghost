@@ -1,7 +1,9 @@
 var _             = require('lodash'),
-    uuid          = require('node-uuid'),
+    uuid          = require('uuid'),
+    moment        = require('moment'),
     globalUtils   = require('../../../server/utils'),
     DataGenerator = {};
+
 /*jshint quotmark:false*/
 // jscs:disable validateQuoteMarks, requireCamelCaseOrUpperCaseIdentifiers
 DataGenerator.Content = {
@@ -9,29 +11,37 @@ DataGenerator.Content = {
         {
             title: "HTML Ipsum",
             slug: "html-ipsum",
-            markdown: "<h1>HTML Ipsum Presents</h1><p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href=\"#\">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p><h2>Header Level 2</h2><ol><li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li><li>Aliquam tincidunt mauris eu risus.</li></ol><blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote><h3>Header Level 3</h3><ul><li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li><li>Aliquam tincidunt mauris eu risus.</li></ul><pre><code>#header h1 a{display: block;width: 300px;height: 80px;}</code></pre>"
+            markdown: "<h1>HTML Ipsum Presents</h1><p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href=\"#\">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p><h2>Header Level 2</h2><ol><li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li><li>Aliquam tincidunt mauris eu risus.</li></ol><blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote><h3>Header Level 3</h3><ul><li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li><li>Aliquam tincidunt mauris eu risus.</li></ul><pre><code>#header h1 a{display: block;width: 300px;height: 80px;}</code></pre>",
+            published_at: new Date("2015-01-01")
         },
         {
             title: "Ghostly Kitchen Sink",
             slug: "ghostly-kitchen-sink",
-            markdown: "<h1>HTML Ipsum Presents</h1><p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href=\"#\">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p><h2>Header Level 2</h2><ol><li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li><li>Aliquam tincidunt mauris eu risus.</li></ol><blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote><h3>Header Level 3</h3><ul><li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li><li>Aliquam tincidunt mauris eu risus.</li></ul><pre><code>#header h1 a{display: block;width: 300px;height: 80px;}</code></pre>"
+            markdown: "<h1>HTML Ipsum Presents</h1><p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href=\"#\">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p><h2>Header Level 2</h2><ol><li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li><li>Aliquam tincidunt mauris eu risus.</li></ol><blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote><h3>Header Level 3</h3><ul><li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li><li>Aliquam tincidunt mauris eu risus.</li></ul><pre><code>#header h1 a{display: block;width: 300px;height: 80px;}</code></pre>",
+            published_at: new Date("2015-01-02")
         },
         {
             title: "Short and Sweet",
             slug: "short-and-sweet",
             markdown: "## testing\n\nmctesters\n\n- test\n- line\n- items",
-            html: "<h2 id=\"testing\">testing</h2>\n\n<p>mctesters</p>\n\n<ul>\n<li>test</li>\n<li>line</li>\n<li>items</li>\n</ul>"
+            html: "<h2 id=\"testing\">testing</h2>\n\n<p>mctesters</p>\n\n<ul>\n<li>test</li>\n<li>line</li>\n<li>items</li>\n</ul>",
+            image: "http://placekitten.com/500/200",
+            meta_description: "test stuff",
+            published_at: new Date("2015-01-03"),
+            uuid: "2ac6b4f6-e1f3-406c-9247-c94a0496d39d"
         },
         {
             title: "Not finished yet",
             slug: "unfinished",
             markdown: "<h1>HTML Ipsum Presents</h1><p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href=\"#\">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p><h2>Header Level 2</h2><ol><li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li><li>Aliquam tincidunt mauris eu risus.</li></ol><blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote><h3>Header Level 3</h3><ul><li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li><li>Aliquam tincidunt mauris eu risus.</li></ul><pre><code>#header h1 a{display: block;width: 300px;height: 80px;}</code></pre>",
-            status: "draft"
+            status: "draft",
+            uuid: "d52c42ae-2755-455c-80ec-70b2ec55c903",
+            featured: false
         },
         {
             title: "Not so short, bit complex",
             slug: "not-so-short-bit-complex",
-            markdown: "<p><nav><ul><li><a href=\"#nowhere\" title=\"Lorum ipsum dolor sit amet\">Lorem</a></li><li><a href=\"#nowhere\" title=\"Aliquam tincidunt mauris eu risus\">Aliquam</a></li><li><a href=\"#nowhere\" title=\"Morbi in sem quis dui placerat ornare\">Morbi</a></li><li><a href=\"#nowhere\" title=\"Praesent dapibus, neque id cursus faucibus\">Praesent</a></li><li><a href=\"#nowhere\" title=\"Pellentesque fermentum dolor\">Pellentesque</a></li></ul></nav><p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p><table><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead><tbody><tr><td>a</td><td>b</td><td>c</td><td>d</td></tr><tr><td>e</td><td>f</td><td>g</td><td>h</td></tr><tr><td>i</td><td>j</td><td>k</td><td>l</td></tr></tbody></table><dl><dt>Definition list</dt><dd>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</dd><dt>Lorem ipsum dolor sit amet</dt><dd>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</dd></dl><ul><li>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</li><li>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li><li>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</li><li>Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.</li></ul></p>"
+            markdown: "<p><nav><ul><li><a href=\"#nowhere\" title=\"Anchor URL\">Lorem</a></li><li><a href=\"/about#nowhere\" title=\"Relative URL\">Aliquam</a></li><li><a href=\"//somewhere.com/link#nowhere\" title=\"Protocol Relative URL\">Tortor</a></li><li><a href=\"http://somewhere.com/link#nowhere\" title=\"Absolute URL\">Morbi</a></li><li><a href=\"#nowhere\" title=\"Praesent dapibus, neque id cursus faucibus\">Praesent</a></li><li><a href=\"#nowhere\" title=\"Pellentesque fermentum dolor\">Pellentesque</a></li></ul></nav><p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p><table><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead><tbody><tr><td>a</td><td>b</td><td>c</td><td>d</td></tr><tr><td>e</td><td>f</td><td>g</td><td>h</td></tr><tr><td>i</td><td>j</td><td>k</td><td>l</td></tr></tbody></table><dl><dt>Definition list</dt><dd>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</dd><dt>Lorem ipsum dolor sit amet</dt><dd>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</dd></dl><ul><li>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</li><li>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li><li>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</li><li>Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.</li></ul></p>"
         },
         {
             title: "This is a static page",
@@ -45,6 +55,13 @@ DataGenerator.Content = {
             markdown: "<h1>Static page test is what this is for.</h1><p>Hopefully you don't find it a bore.</p>",
             page: 1,
             status: "draft"
+        },
+        {
+            title: "This is a scheduled post!!",
+            slug: "scheduled-post",
+            markdown: "<h1>Welcome to my invisible post!</h1>",
+            status: "scheduled",
+            published_at: moment().add(2, 'days').toDate()
         }
     ],
 
@@ -74,24 +91,28 @@ DataGenerator.Content = {
     // Password = Sl1m3rson
     users: [
         {
+            // owner
             name: 'Joe Bloggs',
             slug: 'joe-bloggs',
             email: 'jbloggs@example.com',
             password: '$2a$10$.pZeeBE0gHXd0PTnbT/ph.GEKgd0Wd3q2pWna3ynTGBkPKnGIKZL6'
         },
         {
+            // editor
             name: 'Smith Wellingsworth',
             slug: 'smith-wellingsworth',
             email: 'swellingsworth@example.com',
             password: '$2a$10$.pZeeBE0gHXd0PTnbT/ph.GEKgd0Wd3q2pWna3ynTGBkPKnGIKZL6'
         },
         {
+            // author
             name: 'Jimothy Bogendath',
             slug: 'jimothy-bogendath',
             email: 'jbOgendAth@example.com',
             password: '$2a$10$.pZeeBE0gHXd0PTnbT/ph.GEKgd0Wd3q2pWna3ynTGBkPKnGIKZL6'
         },
         {
+            // administrator
             name: 'Slimer McEctoplasm',
             slug: 'slimer-mcectoplasm',
             email: 'smcectoplasm@example.com',
@@ -222,6 +243,16 @@ DataGenerator.Content = {
             key: 'setting',
             value: 'value'
         }
+    ],
+
+    subscribers: [
+        {
+            email: 'subscriber1@test.com',
+            post_id: 1
+        },
+        {
+            email: 'subscriber2@test.com'
+        }
     ]
 };
 
@@ -234,10 +265,14 @@ DataGenerator.forKnex = (function () {
         roles,
         users,
         roles_users,
-        clients;
+        clients,
+        trustedDomains,
+        subscribers;
 
     function createBasic(overrides) {
-        return _.defaults(overrides, {
+        var newObj = _.cloneDeep(overrides);
+
+        return _.defaults(newObj, {
             uuid: uuid.v4(),
             created_by: 1,
             created_at: new Date(),
@@ -247,8 +282,11 @@ DataGenerator.forKnex = (function () {
     }
 
     function createPost(overrides) {
-        return _.defaults(overrides, {
+        var newObj = _.cloneDeep(overrides);
+
+        return _.defaults(newObj, {
             uuid: uuid.v4(),
+            title: 'title',
             status: 'published',
             html: overrides.markdown,
             language: 'en_US',
@@ -283,12 +321,27 @@ DataGenerator.forKnex = (function () {
     }
 
     function createUser(overrides) {
-        return _.defaults(overrides, {
+        var newObj = _.cloneDeep(overrides);
+
+        return _.defaults(newObj, {
             uuid: uuid.v4(),
             status: 'active',
             created_by: 1,
             created_at: new Date()
         });
+    }
+
+    function createClient(overrides) {
+        overrides = overrides || {};
+
+        var newObj = _.cloneDeep(overrides),
+            basics = createBasic(newObj);
+
+        return _.defaults(newObj, {
+            secret: 'not_available',
+            type: 'ua',
+            status: 'enabled'
+        }, basics);
     }
 
     function createGenericUser(uniqueInteger) {
@@ -308,7 +361,9 @@ DataGenerator.forKnex = (function () {
     }
 
     function createAppField(overrides) {
-        return _.defaults(overrides, {
+        var newObj = _.cloneDeep(overrides);
+
+        return _.defaults(newObj, {
             uuid: uuid.v4(),
             created_by: 1,
             created_at: new Date(),
@@ -320,7 +375,9 @@ DataGenerator.forKnex = (function () {
     }
 
     function createAppSetting(overrides) {
-        return _.defaults(overrides, {
+        var newObj = _.cloneDeep(overrides);
+
+        return _.defaults(newObj, {
             uuid: uuid.v4(),
             app_id: 1,
             created_by: 1,
@@ -329,7 +386,9 @@ DataGenerator.forKnex = (function () {
     }
 
     function createToken(overrides) {
-        return _.defaults(overrides, {
+        var newObj = _.cloneDeep(overrides);
+
+        return _.defaults(newObj, {
             token: uuid.v4(),
             client_id: 1,
             expires: Date.now() + globalUtils.ONE_DAY_MS
@@ -343,7 +402,8 @@ DataGenerator.forKnex = (function () {
         createPost(DataGenerator.Content.posts[3]),
         createPost(DataGenerator.Content.posts[4]),
         createPost(DataGenerator.Content.posts[5]),
-        createPost(DataGenerator.Content.posts[6])
+        createPost(DataGenerator.Content.posts[6]),
+        createPost(DataGenerator.Content.posts[7])
     ];
 
     tags = [
@@ -369,7 +429,16 @@ DataGenerator.forKnex = (function () {
     ];
 
     clients = [
-        createBasic({name: 'Ghost Admin', slug: 'ghost-admin', secret: 'not_available'})
+        createClient({name: 'Ghost Admin', slug: 'ghost-admin', type: 'ua'}),
+        createClient({name: 'Ghost Scheduler', slug: 'ghost-scheduler', type: 'web'})
+    ];
+
+    trustedDomains = [
+        {
+            uuid: '117084d0-d660-11e6-8b46-f7d235f120db',
+            client_id: 1,
+            trusted_domain: 'https://example.com'
+        }
     ];
 
     roles_users = [
@@ -399,11 +468,17 @@ DataGenerator.forKnex = (function () {
         createAppField(DataGenerator.Content.app_fields[1])
     ];
 
+    subscribers = [
+        createBasic(DataGenerator.Content.subscribers[0]),
+        createBasic(DataGenerator.Content.subscribers[1])
+    ];
+
     return {
         createPost: createPost,
         createGenericPost: createGenericPost,
         createTag: createBasic,
         createUser: createUser,
+        createClient: createClient,
         createGenericUser: createGenericUser,
         createBasic: createBasic,
         createRole: createBasic,
@@ -413,7 +488,9 @@ DataGenerator.forKnex = (function () {
         createAppField: createAppField,
         createAppSetting: createAppSetting,
         createToken: createToken,
+        createSubscriber: createBasic,
 
+        trustedDomains: trustedDomains,
         posts: posts,
         tags: tags,
         posts_tags: posts_tags,
@@ -422,7 +499,8 @@ DataGenerator.forKnex = (function () {
         roles: roles,
         users: users,
         roles_users: roles_users,
-        clients: clients
+        clients: clients,
+        subscribers: subscribers
     };
 }());
 
